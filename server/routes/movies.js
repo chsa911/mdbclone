@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Movie = require("../models/Movie");
 const movies = require("../config/movies.json");
-
+//Route for getting all movies
 router.get("/movies", async (req, res) => {
 	try {
 		const page = parseInt(req.query.page) - 1 || 0;
@@ -61,6 +61,39 @@ router.get("/movies", async (req, res) => {
 		console.log(err);
 		res.status(500).json({ error: true, message: "Internal Server Error" });
 	}
+});
+// Route for Save a new Movie
+router.post('/', async (request, response) => {
+  try {
+    if (
+    //das5
+      !request.body.name ||
+      !request.body.img ||
+      !request.body.year||
+      !request.body.rating ||
+      !request.body.genre
+
+    ) {
+      return response.status(400).send({
+        message: 'Send all required fields: name, img, year',
+      });
+    }
+    const newMovie = {
+    //das5
+      name: request.body.name,
+      img: request.body.img,
+      year: request.body.year,
+      rating: request.body.rating,
+      genre: request.body.genre,
+    };
+
+    const movie = await movie.create(newMovie);
+
+    return response.status(201).send(movie);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
 });
 
  /*const insertMovies = async () => {
