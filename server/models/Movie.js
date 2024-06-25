@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+//das5
 const movieSchema = new mongoose.Schema({
     name: {type: String, required: true},
     img: {type: String, required: true},
