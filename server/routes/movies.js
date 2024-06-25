@@ -1,6 +1,74 @@
 const router = require("express").Router();
-const Movie = require("../models/Movie");
+//const router = express.Router()
+
+const Movie = require("../models/movie");
 const movies = require("../config/movies.json");
+//const axios = require("axios")
+const express = require("express")
+const app = express()
+app.use(express.json());
+app.use(express.urlencoded({extended: true }));
+
+
+//const router = express.Router();
+
+/*
+router.post("/api/movies", async (req, res) => {
+//console.log(req.body);
+//res.send(req.body);
+
+  try {
+    let newDocument = {
+          name: req.body.name,
+        img: req.body.img,
+        year: req.body.year,
+        rating: req.body.rating,
+        genre: req.body.genre,
+
+    };
+    let collection = await db.collection("movies");
+    let result = await collection.insertOne(newDocument);
+    res.send(result).status(204);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error adding record");
+}
+});
+*/
+// Route for Save a new Movie
+router.post("/", async (req, res) => {
+  try {
+   if (
+    //das5
+      !req.body.name ||
+      !req.body.img ||
+      !req.body.year||
+      !req.body.rating ||
+      !req.body.genre
+
+    ) {
+      return response.status(400).json({ message:
+       "Send all required fields: name, img, year, rating, genre" });
+
+    }
+    const newMovie = {
+    //das5
+      name: req.body.name,
+      img: req.body.img,
+      year: req.body.year,
+      rating: req.body.rating,
+      genre: req.body.genre,
+    };
+
+    const movie = await movie.create(newMovie);
+
+    return response.status(201).json(response);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
+});
+
 //Route for getting all movies
 router.get("/movies", async (req, res) => {
 	try {
@@ -62,34 +130,31 @@ router.get("/movies", async (req, res) => {
 		res.status(500).json({ error: true, message: "Internal Server Error" });
 	}
 });
-// Route for Save a new Movie
-router.post('/', async (request, response) => {
+// Route for Update a Book
+router.put("/:id", async (req, res) => {
   try {
     if (
-    //das5
-      !request.body.name ||
-      !request.body.img ||
-      !request.body.year||
-      !request.body.rating ||
-      !request.body.genre
-
+  //das5
+      !req.body.name ||
+      !req.body.img ||
+      !req.body.year||
+      !req.body.rating ||
+      !req.body.genre
     ) {
       return response.status(400).send({
-        message: 'Send all required fields: name, img, year',
+        message: 'Send all required fields: title, author, publishYear',
       });
     }
-    const newMovie = {
-    //das5
-      name: request.body.name,
-      img: request.body.img,
-      year: request.body.year,
-      rating: request.body.rating,
-      genre: request.body.genre,
-    };
 
-    const movie = await movie.create(newMovie);
+    const { id } = req.params;
 
-    return response.status(201).send(movie);
+    const result = await Movie.findByIdAndUpdate(id, req.body);
+
+    if (!result) {
+      return response.status(404).json({ message: 'Book not found' });
+    }
+
+    return response.status(200).send({ message: 'Book updated successfully' });
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
@@ -110,3 +175,4 @@ router.post('/', async (request, response) => {
      .catch((err) => console.log(err))
 */
 module.exports = router;
+//export default router;

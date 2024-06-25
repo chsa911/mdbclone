@@ -8,7 +8,14 @@ const app = express();
 dbConnect();
 
 app.use(express.json());
-app.use(cors());
+app.use(express.urlencoded( {extended: true} ));
+
+const corsOptions = {
+  origin: "http://localhost:3000", //front end dns
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use("/api", movieRoutes);
 

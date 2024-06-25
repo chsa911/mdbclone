@@ -4,13 +4,14 @@ import Spinner from '../components/Spinner';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+
 //das5
 const CreateMovies = () => {
   const [name, setName] = useState('');
   const [img, setImg] = useState('');
   const [year, setYear] = useState('');
-  const [genre, setGenre] = useState(false);
   const [rating, setRating] = useState(false);
+  const [genre, setGenre] = useState(false);
 
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -26,7 +27,7 @@ const CreateMovies = () => {
 
     setLoading(true);
     axios
-      .post('http://localhost:5555/Movies', data)
+      .post('http://localhost:8080/movies', data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Movie Created successfully', { variant: 'success' });
@@ -66,29 +67,29 @@ const CreateMovies = () => {
           />
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Publish Year</label>
+          <label className='text-xl mr-4 text-gray-500'>Year</label>
           <input
             type='number'
             value={year}
-            onChange={(e) => setyear(e.target.value)}
+            onChange={(e) => setYear(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
         <div className='my-4'>
-                 <label className='text-xl mr-4 text-gray-500'>Publish Year</label>
+                 <label className='text-xl mr-4 text-gray-500'>Genre</label>
                  <input
-                   type='number'
+                   type='text'
                    value={genre}
-                   onChange={(e) => setgenre(e.target.value)}
+                   onChange={(e) => setGenre(e.target.value)}
                    className='border-2 border-gray-500 px-4 py-2  w-full '
                  />
                </div>
         <div className='my-4'>
-                 <label className='text-xl mr-4 text-gray-500'>Publish Year</label>
+                 <label className='text-xl mr-4 text-gray-500'>Rating</label>
                  <input
-                   type='number'
+                   type='text'
                    value={rating}
-                   onChange={(e) => setrating(e.target.value)}
+                   onChange={(e) => setRating(e.target.value)}
                    className='border-2 border-gray-500 px-4 py-2  w-full '
                  />
                </div>
