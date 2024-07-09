@@ -36,7 +36,7 @@ router.post("/api/movies", async (req, res) => {
 });
 */
 // Route for Save a new Movie
-router.post("/", async (req, res) => {
+router.post("/save", async (req, res) => {
   try {
    if (
     //das5
@@ -51,16 +51,16 @@ router.post("/", async (req, res) => {
        "Send all required fields: name, img, year, rating, genre" });
 
     }
-    const newMovie = {
+    const newMovie = new Movie({
     //das5
       name: req.body.name,
       img: req.body.img,
       year: req.body.year,
       rating: req.body.rating,
       genre: req.body.genre,
-    };
+    });
 
-    const movie = await movie.create(newMovie);
+    const movie = await newMovie.save();
 
     return response.status(201).json(response);
   } catch (error) {
